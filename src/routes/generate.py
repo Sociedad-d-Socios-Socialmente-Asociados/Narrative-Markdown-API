@@ -38,7 +38,11 @@ def upload_to_firebase(local_file_path, remote_file_name):
 )
 async def generate_from_text(req: schemas.generate_from_text):
 
-    token_list = run_tokenizer(req.text)
+    # Remove newline characters from the code
+    code = req.text.replace("\r", "").replace("\n ", "\n")
+
+
+    token_list = run_tokenizer(code)
     root_nodes, success = run_syntax_tree(token_list)
 
     if success:
